@@ -9,7 +9,8 @@ public class UserDao {
 
         try {
             c = getSa();
-            ps = makeStatement(c);
+            StatementStrategy statementStrategy = new DeleteAllStatement();
+            ps = statementStrategy.makePreparedStatement(c);
 
             ps.executeUpdate();
         } catch (SQLException e) {

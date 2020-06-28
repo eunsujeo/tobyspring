@@ -1,5 +1,7 @@
 package study.spring.toby.chapter03.exercise.dao;
 
+import study.spring.toby.chapter03.domain.User;
+
 import java.sql.*;
 
 public class UserDao {
@@ -49,6 +51,11 @@ public class UserDao {
                 }
             }
         }
+    }
+
+    public void add(User user) throws SQLException {
+        StatementStrategy st = new Addstament(user);
+        jdbcContextWithStatementStrategy(st);
     }
 
     private Connection getSa() throws SQLException {

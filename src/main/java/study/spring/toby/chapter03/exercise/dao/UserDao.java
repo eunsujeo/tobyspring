@@ -1,25 +1,29 @@
 package study.spring.toby.chapter03.exercise.dao;
 
+import org.springframework.jdbc.core.JdbcTemplate;
 import study.spring.toby.chapter03.domain.User;
 
+import javax.sql.DataSource;
 import java.sql.*;
 
 public class UserDao {
 
     private JdbcContext jdbcContext;
+    private JdbcTemplate jdbcTemplate;
 
+    public void setDataSource(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+
+    }
+
+    // region JdbcContext
     // JdbcContext 를 DI 받도록 만든다.
     public void setJdbcContext(JdbcContext jdbcContext) {
         this.jdbcContext = jdbcContext;
     }
 
     public void deleteAll() throws SQLException {
-        this.jdbcContext.workWithStatementStrategy(new StatementStrategy() {
-            @Override
-            public PreparedStatement makePreparedStatement(Connection c) throws SQLException {
-                return c.prepareStatement("delete from users");
-            }
-        });
+        this.jdbcContext.executeSql("delete from users");
     }
 
     public void add(User user) throws SQLException {
@@ -84,4 +88,5 @@ public class UserDao {
                 "jdbc:h2:tcp://localhost/~/test", "sa", ""
         );
     }
+    // endregion
 }

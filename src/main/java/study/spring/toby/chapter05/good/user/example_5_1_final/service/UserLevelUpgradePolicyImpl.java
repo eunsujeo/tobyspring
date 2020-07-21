@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import study.spring.toby.chapter05.good.user.example_5_1_final.domain.Level;
 import study.spring.toby.chapter05.good.user.example_5_1_final.domain.User;
 
-@Service
+@Service("beforeEvent")
 public class UserLevelUpgradePolicyImpl implements UserLevelUpgradePolicy {
     public static final int MIN_LOGCOUNT_FOR_SILVER = 50;
     public static final int MIN_RECCOMEND_FOR_GOLD = 30;

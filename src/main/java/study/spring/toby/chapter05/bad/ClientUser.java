@@ -8,6 +8,7 @@ public class ClientUser {
 
         if (user.getLevel() == User.BASIC) {
             user.setLevel(getSum(100));
+//            user.setLevel(User.SILVER);
         }
     }
 

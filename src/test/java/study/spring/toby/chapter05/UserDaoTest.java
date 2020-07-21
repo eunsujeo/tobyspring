@@ -38,13 +38,19 @@ public class UserDaoTest {
     }
 
     @Test
-    public void addAnsGet() {
+    public void addAndGet() {
         dao.deleteAll();
         assertThat(dao.getCount()).isEqualTo(0);
 
         dao.add(user1);
         dao.add(user2);
         assertThat(dao.getCount()).isEqualTo(2);
+
+        User userget1 = dao.get(user1.getId());
+        checkSameUser(userget1, user1);
+
+        User userget2 = dao.get(user2.getId());
+        checkSameUser(userget2, user2);
     }
 
     @Test

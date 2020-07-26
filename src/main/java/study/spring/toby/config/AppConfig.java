@@ -2,7 +2,9 @@ package study.spring.toby.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.transaction.PlatformTransactionManager;
 import study.spring.toby.chapter05.good.user.example_5_1_1.dao.UserDao;
 import study.spring.toby.chapter05.good.user.example_5_1_1.dao.UserDaoJdbc;
 import study.spring.toby.chapter05.good.user.example_5_1_1.service.UserService;
@@ -25,6 +27,23 @@ public class AppConfig {
     @Bean
     public study.spring.toby.chapter05.good.user.example_5_1_final.dao.UserDao finalUserDao() {
         return new study.spring.toby.chapter05.good.user.example_5_1_final.dao.UserDaoJdbc();
+    }
+
+    @Bean
+    public study.spring.toby.chapter05.good.user.example_5_2_1.dao.UserDao fiveTwoUserDao() {
+        return new study.spring.toby.chapter05.good.user.example_5_2_1.dao.UserDaoJdbc();
+    }
+
+    @Bean
+    public study.spring.toby.chapter05.good.user.example_5_2_2.dao.UserDao platformUserDao() {
+        return new study.spring.toby.chapter05.good.user.example_5_2_2.dao.UserDaoJdbc();
+    }
+
+    @Bean
+    public PlatformTransactionManager transactionManager() {
+        DataSourceTransactionManager dataSourceTransactionManager = new DataSourceTransactionManager();
+        dataSourceTransactionManager.setDataSource(h2DataSource());
+        return dataSourceTransactionManager;
     }
 
     @Bean

@@ -106,31 +106,41 @@ public class Page_351_UserServiceTest {
 
     @Test
     public void upgradeAllOrNothing() throws Exception {
+        // 예외를 발생시킬 네 번째 사용자의 id를 넣어서 테스트용 UserService 대역 오브젝트를 생헌다.
         UserService testUserService = new TestUserService(users.get(3).getId());
         testUserService.setUserDao(this.userDao);
         testUserService.setDataSource(this.dataSource);
+
         userDao.deleteAll();
         for (User user : users) {
             userDao.add(user);
         }
 
         try {
+            // TestUserService는 업그레이드 작업 중에 예외가 발생해야한다.
+            // 정상 종료라면 문제가 있으니 실패
             testUserService.upgradeLevels();
             fail("TestUserServiceException expected");
         } catch (TestUserServiceException e) {
-
+            // TestUserService가 던져주는 예외를 잡아서 계속 진행되도록 한다. 그 외의 예외라면 테스트 실패.
         }
 
+        // 예외가 발생하기 전에 레벨 변경이 있었던 사용자의 레벨이 처음 상태로 바뀌었나 확인
+        // 실패 이유 : 네 번째 사용자 처리 중 예외가 발생했지만 그대로 유지되고 있는 것이다.
         checkLevelUpgraded(users.get(1), false);
     }
 
     static class TestUserService extends UserService {
         private String id;
+
+        // 예외를 발생시킬 User 오브젝트의 id를 지정할 수 있게 만든다.
         private TestUserService(String id) {
             this.id = id;
         }
 
+        // UserService의 메소드를 오버라이드한다.
         protected void upgradeLevel(User user) {
+            // 지정된 id의 Usesr 오브젝트가 발견되면 예외를 던져서 작업을 강제로 중단시킨다.
             if (user.getId().equals(this.id)) throw new TestUserServiceException();
             super.upgradeLevel(user);
         }

@@ -54,7 +54,12 @@ public class UserService {
         //region 리스트 5-41
 //        // 1. 트랜잭션 동기화 관리자를 이용해 동기화 작업을 초기화한다.
 //        TransactionSynchronizationManager.initSynchronization();
+//
 //        // 2. DB 커넥션을 생성하고 트랜잭션을 시작한다. 이후의 DAO 작업은 모두 여기서 시작한 트랜잭션 안에서 진행된다.
+//        //    DataSource에서 Connection을 직접 가져오지 않고, 스프링이 제공하는 유틸리티 메소드를 쓰는 이유는
+//        //    이 DataSourceUtils의 getConnection() 메소드는 Connection 오브젝트를 생성해줄 뿐만 아니라
+//        //    트랜잭션 동기화에 사용하도록 저장소에 바인딩까지 해준다.
+//
 //        Connection c = DataSourceUtils.getConnection(dataSource);
 //        c.setAutoCommit(false);
 //
@@ -77,6 +82,7 @@ public class UserService {
 //            TransactionSynchronizationManager.unbindResource(this.dataSource);
 //            TransactionSynchronizationManager.clearSynchronization();
 //        }
+//      // 간단한 트랜잭션 동기화 작업만 붙여줌으로써, 지저분한 Connection 파라미터의 문제를 깔끔히 해결.
         //endregion
 
         //region 리스트 5-44
@@ -105,7 +111,11 @@ public class UserService {
 //        } finally {
 //            c.close();
 //        }
-        //endregion
+////         트랜잭션의 처리 방법 및 코드 구조는 비슷하지만 JDBC 로컬 트랜잭션을 JTA를 이용하는 글로벌 트랜잭션으로
+////         바꾸려면 UserService 의 코드를 수정해야 한다는 점이다.
+////         또한 하이버네이트를 이용하게 되면 JDBC나 JTA의 코드와 다르다. Connection을 직접 사용하지 않고
+////         Session 이라는 것을 사용하고, 독자적인 트랜잭션 관리 API를 사용한다.
+//        endregion
 
         //region 리스트 5-45
         //1. JDBC 트랜잭션 추상 오브젝트 생성

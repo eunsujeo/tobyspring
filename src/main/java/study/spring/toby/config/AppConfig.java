@@ -4,10 +4,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+import org.springframework.mail.MailSender;
 import org.springframework.transaction.PlatformTransactionManager;
 import study.spring.toby.chapter05.good.user.example_5_1_1.dao.UserDao;
 import study.spring.toby.chapter05.good.user.example_5_1_1.dao.UserDaoJdbc;
-import study.spring.toby.chapter05.good.user.example_5_1_1.service.UserService;
+import study.spring.toby.chapter06.example_6_2_2.service.DummyMailSender;
 
 import javax.sql.DataSource;
 
@@ -19,6 +20,12 @@ public class AppConfig {
         return new UserDaoJdbc();
     }
 
+    @Bean
+    public MailSender mailSender() {
+        return new DummyMailSender();
+    }
+
+    // region Chapter 5
     @Bean
     public study.spring.toby.chapter05.good.user.example_5_1_5.dao.UserDao refactorUserDao() {
         return new study.spring.toby.chapter05.good.user.example_5_1_5.dao.UserDaoJdbc();
@@ -38,6 +45,14 @@ public class AppConfig {
     public study.spring.toby.chapter05.good.user.example_5_2_2.dao.UserDao platformUserDao() {
         return new study.spring.toby.chapter05.good.user.example_5_2_2.dao.UserDaoJdbc();
     }
+    // endregion
+
+    // region Chapter 6
+    @Bean
+    public study.spring.toby.chapter06.example_6_2_2.dao.UserDao chapterSixTwoTwoUserDao() {
+        return new study.spring.toby.chapter06.example_6_2_2.dao.UserDaoJdbc();
+    }
+    // endregion
 
     @Bean
     public PlatformTransactionManager transactionManager() {
